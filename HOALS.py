@@ -61,17 +61,17 @@ class HOALS(object):
             if mode==0:
                 for i in xrange(self.max_iter):
                     self.user_vectors = self.iteration(mode,True, sparse.csr_matrix(self.V1))
-                    self.V1 = self.iterationImplicit(mode,False, sparse.csr_matrix(self.user_vectors))
+                    self.V1 = self.iteration(mode,False, sparse.csr_matrix(self.user_vectors))
             
             elif mode==1:
                 for i in xrange(self.max_iter):
                     self.item_vectors = self.iteration(mode,True, sparse.csr_matrix(self.V2))
-                    self.V2 = self.iterationImplicit(mode,False, sparse.csr_matrix(self.item_vectors))
+                    self.V2 = self.iteration(mode,False, sparse.csr_matrix(self.item_vectors))
             
             elif mode==2:
                 for i in xrange(self.max_iter):
                     self.action_vectors = self.iteration(mode,True, sparse.csr_matrix(self.V3))
-                    self.V3 = self.iterationImplicit(mode,False, sparse.csr_matrix(self.action_vectors))
+                    self.V3 = self.iteration(mode,False, sparse.csr_matrix(self.action_vectors))
 
         
         # once finished, we compute the core tensor
