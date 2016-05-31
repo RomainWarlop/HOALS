@@ -1,5 +1,5 @@
 from pyspark import SparkContext
-from pyspark.mllib.recommendation import ALS, Rating
+from pyspark.mllib.recommendation import ALS#, Rating
 from pyspark.sql import SQLContext
 
 sc = SparkContext("local", "HOALS core")
@@ -85,7 +85,8 @@ def HOALS(data,dims,ranks,model='tucker',lambda_=0.8,alpha=0.1,num_iters=5,impli
         print("Start "+mode+" Learning")
         
         dataTrain[i] = sqlContext.createDataFrame(dataTrain[i]).rdd
-        ratings[i] = dataTrain[i].map(lambda l: Rating(float(l[0]), float(l[1]), float(l[2])))
+        #ratings[i] = dataTrain[i].map(lambda l: Rating(float(l[0]), float(l[1]), float(l[2])))
+        ratings[i] = dataTrain[i].map(lambda l: array([float(l[0]), float(l[1]), float(l[2])]))
 
       # Build the recommendation model using Alternating Least Squares
 
