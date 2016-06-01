@@ -6,7 +6,7 @@ Go to https://console.cloud.google.com/home/
 > Go to compute engine 
 > Click on master
 > Edit
-> Enter keys
+> Enter keys # for me named compute_engine
 > Get external ip 
 > In local terminal enter : ssh -i compute_engine YOUR EXTERNAL IP
 > Then execute deploy.sh (not currently working) 
