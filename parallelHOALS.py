@@ -1,10 +1,9 @@
-from pyspark import SparkContext
-from pyspark.mllib.recommendation import ALS#, Rating
+from pyspark import SparkContext, SparkConf
+from pyspark.mllib.recommendation import ALS, Rating
 from pyspark.sql import SQLContext
 
-sc = SparkContext("local", "HOALS core")
+sc = SparkContext("local", "App Name")
 sqlContext = SQLContext(sc)
-
 import pandas as pd
 import numpy as np
 import sktensor

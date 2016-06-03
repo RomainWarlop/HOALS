@@ -23,7 +23,7 @@ def timespend(x):
 np.random.seed(0)
 
 path = "/home/romain/Documents/Github/HOALS/"
-data = pd.read_csv("3S-70k.csv", sep = ";")
+data = pd.read_csv(path+"3S-70k.csv", sep = ";")
 
 selectedItem = np.unique(data['codssfamille'])
 # filter out item which have been seen less than 5 times
