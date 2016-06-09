@@ -1,7 +1,8 @@
 #!/bin/bash
-
+function run(){
 # create the cluster
-./bdutil --bucket test_spark_romain -z europe-west1-b -n 2 -P spark-cluster -p data-science-55 -m n1-standard-2 -e spark_env.sh deploy
+machine_type=$1
+./bdutil -i hoalsv0-worker --bucket test_spark_romain -z europe-west1-b -n 2 -P spark-cluster -p data-science-55 -m $1 -e spark_env.sh deploy
 # test_spark_romain : the cluster name
 # europe-west1- : location
 # 2 : with 2 machines
@@ -28,4 +29,9 @@ done
 
 export PYTHONPATH=$PYTHONPATH:/home/romain/Documents/Github/HOALS
 
-pyspark testHOALS.py
+pyspark testHOALS.py > resultat$1.txt
+
+./bdutil delete
+}
+
+run("n1-standard-2")

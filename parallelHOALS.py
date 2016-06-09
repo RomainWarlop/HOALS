@@ -9,6 +9,7 @@ import numpy as np
 import sktensor
 import re
 import itertools
+import time
 
 def HOALS(data,dims,ranks,model='tucker',lambda_=0.8,alpha=0.1,num_iters=5,implicit=False):
     """
@@ -73,6 +74,7 @@ def HOALS(data,dims,ranks,model='tucker',lambda_=0.8,alpha=0.1,num_iters=5,impli
     ratings = {}
     res = {}
     features = {}
+    times = []
     for i in range(3):
         if i==0:
             mode = 'User'
@@ -88,14 +90,18 @@ def HOALS(data,dims,ranks,model='tucker',lambda_=0.8,alpha=0.1,num_iters=5,impli
         #ratings[i] = dataTrain[i].map(lambda l: array([float(l[0]), float(l[1]), float(l[2])]))
 
       # Build the recommendation model using Alternating Least Squares
-
+        t0 = time.time()
         if implicit:
             res[i] = ALS.trainImplicit(ratings=ratings[i], rank=ranks[i], iterations=num_iters, seed=0, lambda_=lambda_, alpha=alpha)
         else:
             res[i] = ALS.train(ratings=ratings[i], rank=ranks[i], iterations=num_iters, seed=0, lambda_=lambda_)
+        t1 = time.time()
+        delta = t1-t0
+        times.append(delta)
 
         features[i] = res[i].userFeatures()
 	
+    print('longest mode time :',np.max(times))
     #==============================================================================
     # Post processing -> export to classic python
     #==============================================================================

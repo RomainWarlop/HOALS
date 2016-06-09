@@ -5,6 +5,7 @@ from random import shuffle
 import numpy as np
 import pandas as pd
 import itertools
+import time
 
 def timespend(x):
     if x<60:
@@ -72,9 +73,9 @@ for k in range(K):
     else:
         KshuffleUserId.append(shuffleUserId[start:])
 
-lambdas = [0.01,1.0,10.0]
-alphas = [0.01,1.0,10.0]
-for k in [0]:
+lambdas = [0.01] #[0.01,1.0,10.0]
+alphas = [0.01] #[0.01,1.0,10.0]
+for k in [0]: #range(K):
     print('*'*20)
     print('start cross-val',k)
     print('*'*20)
@@ -143,7 +144,6 @@ for k in [0]:
         print('lambda :',lambda_)
         print('alpha :',alpha)
 
-        import time
         t0 = time.time()
         C_hat = HOALS(data = inputTrainingSetTensor, dims = [numUser,numItem,3], ranks=[10,200,2], model = 'tucker',
                       lambda_ = lambda_, alpha = alpha, num_iters = 20, implicit = True)
