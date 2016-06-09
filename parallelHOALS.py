@@ -1,4 +1,4 @@
-from pyspark import SparkContext, SparkConf
+from pyspark import SparkContext
 from pyspark.mllib.recommendation import ALS, Rating
 from pyspark.sql import SQLContext
 
@@ -121,10 +121,10 @@ def HOALS(data,dims,ranks,model='tucker',lambda_=0.8,alpha=0.1,num_iters=5,impli
         #C_hat = W.ttm(A[0],mode=1).ttm(A[1],mode=2).ttm(A[2],mode=0) # to heavy
         def C_hat(a,u,i):
             out = 0
-            P = [range(ranks[i]) for i in range(len(ranks))]
+            P = [range(ranks[k]) for k in range(len(ranks))]
             for elt in itertools.product(*P):
                 m,l,s = elt
-                out += W[s,m,l]*A[0][u,m]*A[1][i,l]*A[2][a,s]
+                out += (W[s,m,l]*A[0][u,m]*A[1][i,l]*A[2][a,s])
             
             return out
     elif model=="cp":
