@@ -12,7 +12,8 @@ do
 done
 export PYTHONPATH=$PYTHONPATH:/home/romain/Documents/Github/HOALS
 pyspark testHOALS.py > resultat$1.txt
-./bdutil delete
+exit
+./bdutil --bucket test_spark_romain -z europe-west1-b -n 2 -P spark-cluster -p data-science-55 -m $1 -e spark_env.sh delete
 }
 
 machines_type=("n1-standard-2" "n1-standard-4")
