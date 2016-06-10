@@ -20,6 +20,7 @@ machines_type=("n1-standard-2" "n1-standard-4")
 
 for (( i=0; i < ${#machines_type[@]}; i++ )); 
 do
+echo "start machine type" ${machines_type[i]}
 run(${machines_type[i]})
 echo "end machine type" ${machines_type[i]}
 done
