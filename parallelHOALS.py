@@ -24,6 +24,7 @@ def HOALS(data,dims,ranks,model='tucker',lambda_=0.8,alpha=0.1,num_iters=5,impli
         [1] : number of items
         [2] : number of actions
     """
+    data.columns = np.arange(data.shape[1])
     C_train = sktensor.sptensor((data[2],data[0],data[1]),
 	        data[3],shape=(dims[2],dims[0],dims[1]))
 

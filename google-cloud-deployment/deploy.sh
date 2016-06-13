@@ -13,7 +13,7 @@ gcloud --project=data-science-55 compute ssh --zone=europe-west1-b spark-cluster
 # adapt the above line
 
 # install some needed packets
-sudo apt-get install python-virtualenv gfortran libopenblas-dev liblapack-dev build-essential git python-dev
+sudo apt-get install python-virtualenv gfortran libopenblas-dev liblapack-dev build-essential git python-dev python-pip
 
 # download the HOALS repo containing the HOALS main code, a dataset, a test code and the required librairies
 git clone https://github.com/RomainWarlop/HOALS.git
@@ -29,3 +29,8 @@ done
 export PYTHONPATH=$PYTHONPATH:/home/romain/Documents/Github/HOALS
 
 pyspark testHOALS.py
+
+for line in $(cat HOALS/google-cloud-deployment/requirements.txt)
+do
+  echo $line
+done
