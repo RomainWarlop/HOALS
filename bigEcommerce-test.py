@@ -42,10 +42,10 @@ data = pd.melt(data,id_vars=['visitorId','productId'])
 data = data.rename(columns= {'value' : 'r'})
 data['r'] = list(map(float,data['r']))
 data = data[data['r']>0]
-data[data['variable']=='nView'] = 0
-data[data['variable']=='nClick'] = 1
-data[data['variable']=='nATC'] = 2
-data[data['variable']=='nBuy'] = 3
+data.loc[data['variable']=='nView','variable'] = 0
+data.loc[data['variable']=='nClick','variable'] = 1
+data.loc[data['variable']=='nATC','variable'] = 2
+data.loc[data['variable']=='nBuy','variable'] = 3
 
 data.columns = np.arange(data.shape[1])
 for i in range(3):
