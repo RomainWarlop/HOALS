@@ -98,49 +98,52 @@ def HOALS(data,dims,ranks,model='tucker',lambda_=0.8,alpha=0.1,num_iters=5,impli
             res[i] = ALS.train(ratings=ratings[i], rank=ranks[i], iterations=num_iters, seed=0, lambda_=lambda_)
         t1 = time.time()
         delta = t1-t0
+        print('time :',delta)
         times.append(delta)
 
-        features[i] = res[i].userFeatures()
+        #features[i] = res[i].userFeatures()
 	
     print('longest mode time :',np.max(times))
     #==============================================================================
     # Post processing -> export to classic python
     #==============================================================================
-    A = {}
-    A_star = {}
-    for j in range(3):
-        features[j] = sqlContext.createDataFrame(features[j]).toPandas()
-        A[j] = []
-        for i in range(features[j].shape[0]):
-            a = features[j].ix[i][1]
-            A[j].append(a)
-        A[j] = np.array(A[j])
-        A_star[j] = np.linalg.pinv(A[j])
-
-    if model=="tucker":
-        if implicit:
-            tmp = sktensor.sptensor((data[2],data[0],data[1]),list(np.repeat(1,len(data))),
-                                        shape=(dims[2],dims[0],dims[1]))
-            W = tmp.ttm(A_star[0],mode=1).ttm(A_star[1],mode=2).ttm(A_star[2],mode=0)
-        else:
-            W = C_train.ttm(A_star[0],mode=1).ttm(A_star[1],mode=2).ttm(A_star[2],mode=0)
-
-        #C_hat = W.ttm(A[0],mode=1).ttm(A[1],mode=2).ttm(A[2],mode=0) # to heavy
-        def C_hat(a,u,i):
-            out = 0
-            P = [range(ranks[k]) for k in range(len(ranks))]
-            for elt in itertools.product(*P):
-                m,l,s = elt
-                out += (W[s,m,l]*A[0][u,m]*A[1][i,l]*A[2][a,s])
-            
-            return out
-    elif model=="cp":
-        #C_hat = sktensor.ktensor([A[2],A[0],A[1]]).totensor() # to heavy
-        def C_hat(a,u,i):
-            out = 0
-            for r in np.arange(ranks[0]):
-                out += A[0][u,r]*A[1][i,r]*A[2][a,r]
-            
-            return out
-
-    return C_hat
+#==============================================================================
+#     A = {}
+#     A_star = {}
+#     for j in range(3):
+#         features[j] = sqlContext.createDataFrame(features[j]).toPandas()
+#         A[j] = []
+#         for i in range(features[j].shape[0]):
+#             a = features[j].ix[i][1]
+#             A[j].append(a)
+#         A[j] = np.array(A[j])
+#         A_star[j] = np.linalg.pinv(A[j])
+# 
+#     if model=="tucker":
+#         if implicit:
+#             tmp = sktensor.sptensor((data[2],data[0],data[1]),list(np.repeat(1,len(data))),
+#                                         shape=(dims[2],dims[0],dims[1]))
+#             W = tmp.ttm(A_star[0],mode=1).ttm(A_star[1],mode=2).ttm(A_star[2],mode=0)
+#         else:
+#             W = C_train.ttm(A_star[0],mode=1).ttm(A_star[1],mode=2).ttm(A_star[2],mode=0)
+# 
+#         #C_hat = W.ttm(A[0],mode=1).ttm(A[1],mode=2).ttm(A[2],mode=0) # to heavy
+#         def C_hat(a,u,i):
+#             out = 0
+#             P = [range(ranks[k]) for k in range(len(ranks))]
+#             for elt in itertools.product(*P):
+#                 m,l,s = elt
+#                 out += (W[s,m,l]*A[0][u,m]*A[1][i,l]*A[2][a,s])
+#             
+#             return out
+#     elif model=="cp":
+#         #C_hat = sktensor.ktensor([A[2],A[0],A[1]]).totensor() # to heavy
+#         def C_hat(a,u,i):
+#             out = 0
+#             for r in np.arange(ranks[0]):
+#                 out += A[0][u,r]*A[1][i,r]*A[2][a,r]
+#             
+#             return out
+# 
+#     return C_hat
+#==============================================================================
