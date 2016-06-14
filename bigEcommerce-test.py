@@ -24,6 +24,7 @@ def timespend(x):
 
 for size in sizes:
     # fix all the random seeds
+    print("size",size)
     np.random.seed(0)
 
     path = "/home/romain/Documents/Github/HOALS/"
