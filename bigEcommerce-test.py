@@ -7,7 +7,7 @@ import pandas as pd
 import itertools
 import time
 
-sizes = [1,10,100]
+sizes = [1,2,3]
 
 def timespend(x):
     if x<60:
