@@ -28,13 +28,12 @@ np.random.seed(0)
 path = "/home/romain/Documents/Github/HOALS/"
 for i in range(size):
     if i==0:
-        data = pd.read_csv(path+"data/bigEcommerce/1.csv")
+        data = pd.read_csv("HOALS/data/bigEcommerce/1.csv")
     else:
-        data = pd.concat([data,pd.read_csv(path+"data/bigEcommerce/"+str(i+1)+".csv")])
+        data = pd.concat([data,pd.read_csv("HOALS/data/bigEcommerce/"+str(i+1)+".csv")])
 
 data['visitorId'] -= 1 # start at 0
-pivotProduct = pd.DataFrame({'productId': list(set(data['productId'])),
-                       'itemId': np.arange(len(set(data['productId'])))})
+pivotProduct = pd.DataFrame({'productId': list(set(data['productId'])),'itemId': np.arange(len(set(data['productId'])))})
 data = pd.merge(data,pivotProduct)
 del data['productId']
 
@@ -55,8 +54,7 @@ for i in range(3):
     data[i] = list(map(int,data[i]))
 
 t0 = time.time()
-C_hat = HOALS(data = data, dims = [numUser,numItem,4], ranks=[10,10,2], model = 'tucker',
-              lambda_ = 0.01, alpha = 0.01, num_iters = 20, implicit = True)
+C_hat = HOALS(data = data, dims = [numUser,numItem,4], ranks=[200,200,2], model = 'tucker',lambda_ = 0.01, alpha = 0.01, num_iters = 20, implicit = True)
 t1 = time.time()
 print('-'*20)
 print('total executation time :',timespend(t1-t0))
