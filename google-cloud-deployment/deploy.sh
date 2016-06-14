@@ -29,8 +29,3 @@ done
 export PYTHONPATH=$PYTHONPATH:/home/romain/Documents/Github/HOALS
 
 pyspark testHOALS.py
-
-for line in $(cat HOALS/google-cloud-deployment/requirements.txt)
-do
-  echo $line
-done

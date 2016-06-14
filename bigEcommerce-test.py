@@ -33,12 +33,15 @@ for i in range(size):
         data = pd.concat([data,pd.read_csv(path+"data/bigEcommerce/"+str(i+1)+".csv")])
 
 data['visitorId'] -= 1 # start at 0
-data['productId'] -= 1 # start at 0
+pivotProduct = pd.DataFrame({'productId': list(set(data['productId'])),
+                       'itemId': np.arange(len(set(data['productId'])))})
+data = pd.merge(data,pivotProduct)
+del data['productId']
 
 numUser = len(set(data['visitorId']))
-numItem = len(set(data['productId']))
+numItem = len(set(data['itemId']))
 
-data = pd.melt(data,id_vars=['visitorId','productId'])
+data = pd.melt(data,id_vars=['visitorId','itemId'])
 data = data.rename(columns= {'value' : 'r'})
 data['r'] = list(map(float,data['r']))
 data = data[data['r']>0]
