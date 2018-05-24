@@ -1,5 +1,5 @@
 from pyspark import SparkContext
-from pyspark.mllib.recommendation import ALS, Rating
+from pyspark.ml.recommendation import ALS
 from pyspark.sql import SQLContext
 
 sc = SparkContext("local", "App Name")
