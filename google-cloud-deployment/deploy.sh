@@ -9,7 +9,7 @@
 # n1-standard-2 : the machine types
 
 # log in to the master
-gcloud --project=data-science-55 compute ssh --zone=europe-west1-b spark-cluster-m
+gcloud --project=YOUR_PROJECT_ID compute ssh --zone=europe-west1-b spark-cluster-m
 # adapt the above line
 
 # install some needed packets
